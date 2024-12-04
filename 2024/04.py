@@ -2,14 +2,10 @@ from advent import BaseSolution
 
 
 class Solution(BaseSolution):
-    def part_one(self) -> int:
-        TARGET = "XMAS"
+    def parse(self, input: str) -> tuple[list[list[str]], int, int]:
+        return (grid := [[x for x in line] for line in input.splitlines()], len(grid), len(grid[0]))
 
-        grid = [[x for x in line] for line in self.input.splitlines()]
-
-        height = len(grid)
-        width = len(grid[0])
-
+    def part_one_impl(self, grid: list[list[str]], height: int, width: int) -> int:  # type: ignore
         xmases = 0
 
         for y in range(height):
@@ -19,15 +15,13 @@ class Solution(BaseSolution):
                         if dy == 0 and dx == 0:
                             continue
 
-                        if ((x + dx * (len(TARGET) - 1)) not in range(width)) or (
-                            (y + dy * (len(TARGET) - 1)) not in range(height)
-                        ):
+                        if ((x + dx * 3) not in range(width)) or ((y + dy * 3) not in range(height)):
                             continue
 
                         ny = y
                         nx = x
 
-                        for c in TARGET:
+                        for c in "XMAS":
                             if grid[ny][nx] != c:
                                 break
 
@@ -37,12 +31,7 @@ class Solution(BaseSolution):
                             xmases += 1
         return xmases
 
-    def part_two(self) -> int:
-        grid = [[x for x in line] for line in self.input.splitlines()]
-
-        height = len(grid)
-        width = len(grid[0])
-
+    def part_two_impl(self, grid: list[list[str]], height: int, width: int) -> int:  # type: ignore
         xmases = 0
 
         for y in range(1, height - 1):

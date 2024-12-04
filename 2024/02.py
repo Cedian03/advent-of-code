@@ -2,15 +2,16 @@ from advent import BaseSolution
 
 
 class Solution(BaseSolution):
-    def part_one(self) -> int:
+    def parse(self, input: str) -> tuple[list[list[int]]]:
+        return ([[int(x) for x in line.split()] for line in input.splitlines()],)
+
+    def part_one_impl(self, reports: list[list[int]]) -> int:  # type: ignore
         res = 0
 
-        for report in self.input.splitlines():
+        for report in reports:
             d = 0
 
-            levels = list(map(int, report.split()))
-
-            for a, b in zip(levels, levels[1:]):
+            for a, b in zip(report, report[1:]):
                 if abs(b - a) > 3:
                     break
 
@@ -33,14 +34,12 @@ class Solution(BaseSolution):
 
         return res
 
-    def part_two(self) -> int:
+    def part_two_impl(self, reports: list[list[int]]) -> int:  # type: ignore
         safe = 0
 
-        for report in self.input.splitlines():
-            levels = list(map(int, report.split()))
-
-            for i in range(len(levels)):
-                clone = levels[:i] + levels[i + 1 :]
+        for report in reports:
+            for i in range(len(report)):
+                clone = report[:i] + report[i + 1 :]
 
                 d = 0
 

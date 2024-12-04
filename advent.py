@@ -2,20 +2,29 @@ from argparse import ArgumentParser
 from datetime import date
 from importlib import import_module
 from types import ModuleType
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
+from abc import ABC, abstractmethod
 
 
-class BaseSolution:
-    input: str
+class BaseSolution(ABC):
+    args: tuple[Any, ...]
 
     def __init__(self, input: str):
-        self.input = input
+        self.args = self.parse(input)
+
+    def parse(self, input: str) -> tuple[Any, ...]:
+        return (input,)
 
     def part_one(self) -> int:
-        raise NotImplementedError("Part one yet to be implemented")
+        return self.part_one_impl(*self.args)
 
     def part_two(self) -> int:
-        raise NotImplementedError("Part two yet to be implemented")
+        return self.part_two_impl(*self.args)
+
+    @abstractmethod
+    def part_one_impl(self) -> int: ...
+    @abstractmethod
+    def part_two_impl(self) -> int: ...
 
 
 def get_parser() -> ArgumentParser:

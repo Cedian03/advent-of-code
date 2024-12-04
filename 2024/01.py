@@ -1,27 +1,20 @@
 from advent import BaseSolution
 
-from collections import defaultdict
-
 
 class Solution(BaseSolution):
-    def part_one(self) -> int:
+    def parse(self, input: str) -> tuple[list[int], list[int]]:
         left: list[int] = []
         right: list[int] = []
 
-        for line in self.input.splitlines():
+        for line in input.splitlines():
             x, y = line.split()
             left.append(int(x))
             right.append(int(y))
 
+        return left, right
+
+    def part_one_impl(self, left: list[int], right: list[int]) -> int:  # type: ignore
         return sum([abs(x - y) for x, y in zip(sorted(left), sorted(right))])
 
-    def part_two(self) -> int:
-        left: list[int] = []
-        right: defaultdict[int, int] = defaultdict(int)
-
-        for line in self.input.splitlines():
-            x, y = line.split()
-            left.append(int(x))
-            right[int(y)] += 1
-
-        return sum([x * right[x] for x in left])
+    def part_two_impl(self, left: list[int], right: list[int]) -> int:  # type: ignore
+        return sum([x * right.count(x) for x in left])

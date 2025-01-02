@@ -4,6 +4,7 @@ from importlib import import_module
 from types import ModuleType
 from typing import Any, Callable, Optional
 from abc import ABC, abstractmethod
+from copy import deepcopy
 
 
 class BaseSolution(ABC):
@@ -16,10 +17,10 @@ class BaseSolution(ABC):
         return (input,)
 
     def part_one(self) -> int:
-        return self.part_one_impl(*self.args)
+        return self.part_one_impl(*deepcopy(self.args))
 
     def part_two(self) -> int:
-        return self.part_two_impl(*self.args)
+        return self.part_two_impl(*deepcopy(self.args))
 
     @abstractmethod
     def part_one_impl(self) -> int: ...
